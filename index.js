@@ -10,7 +10,10 @@ async function getXML(url) {
 }
 
 const xmlTeamplate = {
-    "?xml": "",
+    "?xml": {
+        "@_version": "1.0",
+        "@_encoding": "UTF-8",
+    },
     yml_catalog: {
         shop: {
             name: "to18_toAliexpress",
@@ -48,7 +51,7 @@ getXML(
     });
 
     // write file
-    const builder = new XMLBuilder();
+    const builder = new XMLBuilder({ ignoreAttributes: false });
     const xmlContent = builder.build(xmlTeamplate);
     fs.writeFile("/feedOutputs/xmlFeedToAliexpress.xml", xmlContent, (err) => {
         if (err) {
