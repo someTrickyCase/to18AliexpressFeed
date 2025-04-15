@@ -2,7 +2,10 @@
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 const fs = require("node:fs");
 
-const parser = new XMLParser();
+const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: "@_",
+});
 
 async function getXML(url) {
     const xml = await fetch(url);
@@ -40,6 +43,7 @@ getXML(
     offers.offer.map((product) => {
         const { weight, lenght, height, width } = product;
         if (!weight || !lenght || !height | !width) return;
+
         // recalculate price and add to new xmlObj
         const oldPrice = +product.price.split(",")[0].replace(" ", "");
         if (weight <= 2) product.price = oldPrice + 159;
@@ -53,7 +57,7 @@ getXML(
     // write file
     const builder = new XMLBuilder({ ignoreAttributes: false });
     const xmlContent = builder.build(xmlTeamplate);
-    fs.writeFile("/feedOutputs/xmlFeedToAliexpress.xml", xmlContent, (err) => {
+    fs.writeFile("/var/www/default/xmlFeedToAliexpress.xml", xmlContent, (err) => {
         if (err) {
             console.error(err);
         } else {
