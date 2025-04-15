@@ -2,11 +2,14 @@
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 const fs = require("node:fs");
 
-const parser = new XMLParser({
+const xmlParserOptions = {
     ignoreAttributes: false,
     attributeNamePrefix: "@_",
-});
+    allowBooleanAttributes: true,
+    suppressBooleanAttributes: false,
+};
 
+const parser = new XMLParser(xmlParserOptions);
 async function getXML(url) {
     const xml = await fetch(url);
     return await xml.text();
@@ -55,9 +58,9 @@ getXML(
     });
 
     // write file
-    const builder = new XMLBuilder({ ignoreAttributes: false });
+    const builder = new XMLBuilder(xmlParserOptions);
     const xmlContent = builder.build(xmlTeamplate);
-    fs.writeFile("/var/www/default/xmlFeedToAliexpress.xml", xmlContent, (err) => {
+    fs.writeFile("./xmlFeedToAliexpress.xml", xmlContent, (err) => {
         if (err) {
             console.error(err);
         } else {
