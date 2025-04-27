@@ -1,5 +1,6 @@
 import getAllCategoriesInStore from "../../api/getAllCategories";
 import getAllProductsInStore from "../../api/getAllProducts";
+import { fullFeedsOutputDirectory } from "../../conf";
 import { Credentials } from "../../types/types";
 import buildFeed from "../../xmlWorker/feedBuilder";
 import fs from "node:fs";
@@ -33,5 +34,7 @@ export default async function silovikFeedsManager() {
     // generate Full feed
     const feedName = "silovik_FullFeed";
     const fullFeed = buildFeed(feedName, silovikStoreLink, products, categories);
-    fs.writeFileSync(`/home/eny/outputs/${feedName}.xml`, fullFeed, { encoding: "utf-8" });
+    fs.writeFileSync(`${fullFeedsOutputDirectory}/${feedName}.xml`, fullFeed, {
+        encoding: "utf-8",
+    });
 }

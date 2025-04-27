@@ -1,5 +1,6 @@
 import getAllCategoriesInStore from "../../api/getAllCategories";
 import getAllProductsInStore from "../../api/getAllProducts";
+import { fullFeedsOutputDirectory, specialFeedsOutputDirectory } from "../../conf";
 import { Credentials, Product } from "../../types/types";
 import buildFeed from "../../xmlWorker/feedBuilder";
 import fs from "node:fs";
@@ -33,13 +34,17 @@ export default async function to18FeedsManager() {
     // generate Full feed
     const feedName = "to18_FullFeed";
     const fullFeed = buildFeed(feedName, to18StoreLink, products, categories);
-    fs.writeFileSync(`/home/eny/outputs/${feedName}.xml`, fullFeed, { encoding: "utf-8" });
+    fs.writeFileSync(`${fullFeedsOutputDirectory}/${feedName}.xml`, fullFeed, {
+        encoding: "utf-8",
+    });
 
     // generate Feed to Aliexpress
     const feedToAliName = "to18_toAliexpressFeed";
     const recaulculatedProducts = recalculateFeedForAliexpress(products);
     const toAliFeed = buildFeed(feedToAliName, to18StoreLink, recaulculatedProducts, categories);
-    fs.writeFileSync(`/home/eny/outputs/${feedToAliName}.xml`, toAliFeed, { encoding: "utf-8" });
+    fs.writeFileSync(`${specialFeedsOutputDirectory}/${feedToAliName}.xml`, toAliFeed, {
+        encoding: "utf-8",
+    });
 }
 
 function recalculateFeedForAliexpress(products: Product[]) {
