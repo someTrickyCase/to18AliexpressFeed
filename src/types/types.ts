@@ -47,6 +47,7 @@ export type YmlProduct = {
     picture: string;
     name: string;
     price: string;
+    "shop-sku": string;
     sku: string;
     count: null | number;
     weight: string;

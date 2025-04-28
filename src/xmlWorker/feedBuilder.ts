@@ -55,6 +55,7 @@ export default function buildFeed(
             name: product.name,
             price: product.price,
             sku: product.sku,
+            "shop-sku": product.sku,
             count: product.stock_quantity,
             weight: product.weight,
             height: product.dimensions?.height,

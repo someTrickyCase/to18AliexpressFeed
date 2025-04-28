@@ -12,7 +12,10 @@ export default async function to18FeedsManager() {
         secret: process.env.to18_wcSecret,
     };
 
-    if (!to18StoreLink || !to18Credentials.key || !to18Credentials.secret) return;
+    if (!to18StoreLink || !to18Credentials.key || !to18Credentials.secret) {
+        console.info("There are no credentials data");
+        return;
+    }
 
     async function getTo18Categories() {
         if (!to18StoreLink) return;
